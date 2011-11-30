@@ -385,6 +385,11 @@ class MySqlPlatform extends AbstractPlatform
      */
     protected function _getCreateTableSQL($tableName, array $columns, array $options = array())
     {
+        foreach($columns as $a => $b){
+            $columns[$a]['name'] = '`'.$columns[$a]['name'].'`';
+            $columns['`'.$a.'`'] = $columns[$a];
+            unset($columns[$a]);
+        }
         $queryFields = $this->getColumnDeclarationListSQL($columns);
 
         if (isset($options['uniqueConstraints']) && ! empty($options['uniqueConstraints'])) {
